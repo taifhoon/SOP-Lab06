@@ -19,9 +19,9 @@ public class WizardController {
     private WizardService wizardService;
 
     @RequestMapping(value = "/wizards", method = RequestMethod.GET)
-    public ResponseEntity<?> getWizards(){
+    public List<Wizard> getWizards(){
         List<Wizard> wizards = wizardService.getWizards();
-        return ResponseEntity.ok(wizards);
+        return wizards;
     }
 
 //    @RequestMapping(value = "/addWizard", method = RequestMethod.GET)

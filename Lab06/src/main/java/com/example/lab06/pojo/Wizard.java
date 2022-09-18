@@ -3,7 +3,7 @@ package com.example.lab06.pojo;
 import com.vaadin.flow.component.template.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("Book")
+@Document("Wizard")
 public class Wizard {
     @Id
     private String _id;
