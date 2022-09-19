@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WizardRepository extends MongoRepository<Wizard, String> {
-
-//    @Query(value = "")
+    @Query(value = "{_id: '?0'}")
+    public Wizard getWizardById(String id);
 }
