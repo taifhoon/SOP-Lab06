@@ -59,17 +59,16 @@ public class MainWizardView extends VerticalLayout {
         add(tName, sex, posiBox, tDollar, schoolBox, houseBox, h1);
 
         left.addClickListener(e -> {
-            ArrayList<Wizard> listWizard = WebClient.create()
+            Wizards listWizard = WebClient.create()
                     .get()
                     .uri("http://localhost:8080/wizards")
                     .retrieve()
-                    .bodyToMono(ArrayList.class)
+                    .bodyToMono(Wizards.class)
                     .block();
             if (indexPage > 0) {
                 indexPage--;
             }
-            ObjectMapper mapper = new ObjectMapper();
-            Wizard selectW = mapper.convertValue(listWizard.get(indexPage), Wizard.class);
+            Wizard selectW = listWizard.getModel().get(indexPage);
             thisWizard = selectW;
             if (selectW.getSex().equals("m")){
                 sex.setValue("Male");
@@ -84,17 +83,16 @@ public class MainWizardView extends VerticalLayout {
             houseBox.setValue(selectW.getHouse());
                 });
         right.addClickListener(e -> {
-            List<Wizard> listWizard = WebClient.create()
+            Wizards listWizard = WebClient.create()
                     .get()
                     .uri("http://localhost:8080/wizards")
                     .retrieve()
-                    .bodyToMono(List.class)
+                    .bodyToMono(Wizards.class)
                     .block();
-            if (indexPage < listWizard.size()-1) {
+            if (indexPage < listWizard.getModel().size()-1) {
                 indexPage++;
             }
-            ObjectMapper mapper = new ObjectMapper();
-            Wizard selectW = mapper.convertValue(listWizard.get(indexPage), Wizard.class);
+            Wizard selectW = listWizard.getModel().get(indexPage);
             thisWizard = selectW;
             if (selectW.getSex().equals("m")){
                 sex.setValue("Male");

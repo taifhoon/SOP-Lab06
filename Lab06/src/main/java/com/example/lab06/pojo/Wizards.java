@@ -1,19 +1,30 @@
 package com.example.lab06.pojo;
 
+import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Wizards {
-    private ArrayList<Wizard> model;
-    public Wizards(ArrayList<Wizard> model) {
+@Data
+@Document("Wizard")
+public class Wizards implements Serializable {
+    private List<Wizard> model = new ArrayList<>();
+
+    public Wizards() {
+    }
+
+    public Wizards(List<Wizard> model) {
         this.model = model;
     }
 
-    public ArrayList<Wizard> getModel() {
+    public List<Wizard> getModel() {
         return model;
     }
 
-    public void setModel(ArrayList<Wizard> model) {
+    public void setModel(List<Wizard> model) {
         this.model = model;
     }
 }
