@@ -2,11 +2,11 @@ package com.example.lab06.view;
 
 import com.example.lab06.pojo.Wizard;
 import com.example.lab06.pojo.Wizards;
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.listbox.ListBox;
+//import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -16,8 +16,8 @@ import com.vaadin.flow.router.Route;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 @Route(value = "/mainPage.it")
 public class MainWizardView extends VerticalLayout {
@@ -105,6 +105,7 @@ public class MainWizardView extends VerticalLayout {
             tDollar.setValue(String.valueOf(selectW.getMoney()));
             schoolBox.setValue(selectW.getSchool());
             houseBox.setValue(selectW.getHouse());
+            Notification.show("wowwwwwww",5000, Notification.Position.TOP_END);
         });
 
         create.addClickListener(e -> {
@@ -115,7 +116,7 @@ public class MainWizardView extends VerticalLayout {
             else if (sex.getValue().equals("Male")){
                 selectSex = "m";
             }
-            Wizard w = WebClient.create()
+            WebClient.create()
                     .post()
                     .uri("http://localhost:8080/addWizard")
                     .body(Mono.just(new Wizard(null, selectSex, tName.getValue(), schoolBox.getValue(), houseBox.getValue(), Integer.parseInt(tDollar.getValue()), posiBox.getValue())), Wizard.class)
@@ -133,7 +134,7 @@ public class MainWizardView extends VerticalLayout {
             else if (sex.getValue().equals("Male")){
                 selectSex = "m";
             }
-           Wizard w = WebClient.create()
+           WebClient.create()
                    .post()
                    .uri("http://localhost:8080/updateWizard")
                    .body(Mono.just(new Wizard(this.thisWizard.get_id(), selectSex, tName.getValue(), schoolBox.getValue(), houseBox.getValue(), Integer.parseInt(tDollar.getValue()), posiBox.getValue())), Wizard.class)
@@ -143,15 +144,20 @@ public class MainWizardView extends VerticalLayout {
             Notification.show("Wizard has been Updated", 5000, Notification.Position.BOTTOM_START);
         });
 
+
         delete.addClickListener(e -> {
-            boolean bool = WebClient.create()
-                    .post()
-                    .uri("http://localhost:8080/deleteWizard")
-                    .body(Mono.just(thisWizard.get_id()), String.class)
+            try {
+                WebClient.create()
+                        .post()
+                        .uri("http://localhost:8080/deleteWizard")
+                        .body(Mono.just(thisWizard.get_id()), String.class)
 //                    .body(Mono.just(new Wizard(thisWizard.get_id(), thisWizard.getSex(), thisWizard.getName(), thisWizard.getSchool(), thisWizard.getHouse(), thisWizard.getMoney(), thisWizard.getPosition())), Wizard.class)
-                    .retrieve()
-                    .bodyToMono(boolean.class)
-                    .block();
+                        .retrieve()
+                        .bodyToMono(boolean.class)
+                        .block();
+            }catch (NullPointerException err){
+                System.out.println("Error");
+            }
             Notification.show("Wizard has been Removed", 5000, Notification.Position.BOTTOM_START);
         });
     }
