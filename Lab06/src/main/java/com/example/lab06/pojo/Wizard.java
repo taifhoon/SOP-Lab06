@@ -1,8 +1,10 @@
 package com.example.lab06.pojo;
 
 import com.vaadin.flow.component.template.Id;
+import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Data
 @Document("Wizard")
 public class Wizard {
     @Id
